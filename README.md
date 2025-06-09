@@ -1,19 +1,16 @@
-# Book Nest
-
-
-
+# Book Nest 
 
 ## Setting Up the Project
 
 1. **Clone this repository**:
 ```bash
-https://github.com/FJericho/book-nest-web.git
+git clone https://github.com/FJericho/book-nest-web.git
 ```
 
 2. **Navigate to the project directory**:
 
 ```bash
-cd project-folder-name
+cd book-nest-web
 ```
 
 3. **Install dependencies**:

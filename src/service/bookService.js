@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import bookApi from "../api/bookApi";
 import { setBooks } from "../store/slice/bookSlice";
 import { startLoading, stopLoading } from "../store/slice/loadingSlice";
@@ -9,7 +10,7 @@ export const fetchAllBooks = () => {
             const { data } = await bookApi.getAllBooks();
             dispatch(setBooks(data));
         } catch (error) {
-            alert("Failed to fetch Books");
+            toast.error(error.response?.data?.errors);
         } finally {
             dispatch(stopLoading());
         }
@@ -23,7 +24,7 @@ export const getBookById = (id) => {
             const book = await bookApi.getBookById(id);
             return book.data;
         } catch (error) {
-            alert("Failed to fetch book");
+            toast.error(error.response?.data?.errors);
         } finally {
             dispatch(stopLoading());
         }
@@ -35,9 +36,9 @@ export const createBook = (payload) => {
         dispatch(startLoading());
         try {
             await bookApi.createBook(payload);
-            alert("Book created successfully");
+            toast.success("Book created successfully");
         } catch (error) {
-            alert("Failed to create book");
+            toast.error(error.response?.data?.errors);
         } finally {
             dispatch(stopLoading());
         }

@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import authApi from "../api/authApi";
 import { login } from "../store/slice/authSlice";
 import { startLoading, stopLoading } from "../store/slice/loadingSlice";
@@ -10,12 +11,20 @@ export const loginUser = (payload, navigate) => {
 
             const user = {
                 email: payload.email,
+                name: null,
             };
 
             const authData = {
                 user: user,
                 token: data.token,
             };
+
+            // Decode token
+            const tokenParts = data.token.split(".");
+            if (tokenParts.length === 3) {
+                const decodedPayload = JSON.parse(atob(tokenParts[1]));
+                user.name = decodedPayload.name || [];
+            }
 
             dispatch(login(authData));
 
@@ -24,8 +33,11 @@ export const loginUser = (payload, navigate) => {
 
             navigate("/books");
         } catch (error) {
-            alert(error.response.data.errors);
-            return;
+            if (error.response.status === 401 || error.response.status == 400) {
+                toast.error(error.response?.data?.errors);
+                return;
+            }
+            toast.error("Login failed");
         } finally {
             dispatch(stopLoading());
         }
@@ -37,10 +49,10 @@ export const registerUser = (payload, navigate) => {
         dispatch(startLoading());
         try {
             await authApi.register(payload);
-            alert("Register Successfully");
+            toast.success("Register successfully");
             navigate("/login");
         } catch (error) {
-            alert(error.response.data.errors);
+            toast.error(error.response?.data?.errors);
             return;
         } finally {
             dispatch(stopLoading());

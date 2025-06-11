@@ -1,10 +1,14 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import { logout } from "../../store/slice/authSlice";
+import { toast } from "react-toastify";
 
 export default function MainPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const user = useSelector((state) => state.auth.user);
 
     const sidebarMenus = [{ name: "Book", icon: "bi-book", path: "/books" }];
 
@@ -13,10 +17,9 @@ export default function MainPage() {
     };
 
     const handleLogout = (e) => {
-        setTimeout(() => {
-            dispatch(logout());
-            navigate("/login");
-        }, 1500);
+        dispatch(logout());
+        toast.success("Logout successfully");
+        navigate("/login");
     };
 
     return (
@@ -43,7 +46,7 @@ export default function MainPage() {
                 {/* Profile */}
                 <div className="mt-auto dropdown border-top pt-2">
                     <a href="#" className="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <strong>mdo</strong>
+                        <strong>{user?.name}</strong>
                     </a>
                     <ul className="dropdown-menu text-small shadow">
                         <li>

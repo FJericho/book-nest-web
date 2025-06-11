@@ -7,7 +7,7 @@ import { loginUser } from "../../service/authService";
 export default function LoginPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    
+
     const isLoading = useSelector((state) => state.loading.isLoading);
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 

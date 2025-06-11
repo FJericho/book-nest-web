@@ -45,7 +45,7 @@ export default function BookTable(props) {
                                         </div>
                                     </td>
                                 </tr>
-                            ) : books.length > 0 ? (
+                            ) : books != null ? (
                                 books.map((book, index) => (
                                     <tr key={book.id}>
                                         <td>{index + 1}</td>
@@ -63,7 +63,7 @@ export default function BookTable(props) {
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="4" className="text-center text-muted">
+                                    <td colSpan="5" className="text-center text-muted">
                                         No Books found.
                                     </td>
                                 </tr>
